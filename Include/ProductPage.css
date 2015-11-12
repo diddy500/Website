@@ -1,0 +1,241 @@
+<STYLE type="text/css">
+<!--
+
+/* IDs (unique areas on page) */
+
+#Header {
+	position: absolute; 
+	top: 0px; 
+	left:0px; 
+	height: 30px; 
+	background-color: #FFFFFF;
+}
+
+#HeaderLeft {
+	float: left; 
+}
+
+#HeaderRight {
+	float: right; 
+}
+
+#MenuBar {
+	position: absolute; 
+	top: 35px; 
+	left:0px; 
+	height: 18px; 
+	width: 100%;
+	background-color: #2C5E8F;
+	border:1px white solid;
+}
+
+#MenuBarLeft {
+	float: left;
+}
+
+#MenuBarRight {
+	float: right;
+}
+
+#Search {
+	position: absolute; 
+	top: 55px; 
+	left:0px; 
+	height: 30px;
+}
+
+#SearchLeft {
+	float: left;  
+	width: 180px; 
+	padding-left: 5px; 
+	padding-top: 8px; 
+	background-color: #EBF5FF;
+}
+
+#YouAreHereList {
+	float: right; 
+	padding-right: 5px; 
+	padding-top: 8px;
+}
+
+#YouAreHereLinks {
+	float: right; 
+	padding-top: 10px;
+}
+
+#Main {
+	position: absolute; 
+	top: 120px; 
+	left: 200px;  
+	padding-left: 5px;
+}
+
+#Footer {
+	//position: relative;  
+	//left: -100px;  
+	text-align: center;
+	background-color: #EEEEEE; 	
+}
+
+#FooterTop {
+	width: 100%;
+}
+
+#FooterBottom {
+	width: 100%;
+}
+
+#LeftMenu {
+	position: absolute; 
+	top: 160px; 
+	padding-left: 5px;
+}
+
+#LeftAds {
+	//position: relative; 
+	//top: 400px; 
+	//left:0px;  
+	//padding-left: 5px;  
+	width: 165px;
+}
+
+/* Classes (areas that may be repeated on page) */
+
+.MainProduct {
+	position: relative;
+	clear: both;
+}
+
+.MainProductImage {
+	width: 150; 
+	float: left;
+}
+
+.MainProductText {
+	width: 92%
+}
+
+
+.small {
+	font-size: 7pt;
+	font-family: Verdana, Arial, Helvetica;
+}
+
+.price {
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica;
+	font-weight: bold;
+	color: #cc0033;
+}
+
+.whitelink {
+	font-size: 10pt;
+	font-family: Verdana, Arial, Helvetica;
+	font-weight: bold;
+	color: white;
+}
+
+/* HTML (generic settings) */
+
+body {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10pt;
+  color: black;
+  margin-left: 0; 
+  margin-right: 0;
+  margin-top: 0;  
+}
+
+p {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10pt;
+  color: black;
+}
+
+li {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10pt;
+  color: black;
+}
+
+b {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10pt;
+  color: black;
+}
+
+a {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10pt;
+  text-decoration:none;
+  color: blue;
+}
+
+a.header{
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 8pt;
+  text-decoration:none;
+  color: gray;
+}
+
+a.headerbar{
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 8pt;
+  text-decoration:none;
+  color: white;
+}
+
+a.footer{
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 8pt;
+  text-decoration:none;
+  color: #555555;
+}
+
+a:hover { color: orange; }
+ 
+h1 {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18pt;
+  color: #333366;
+}
+
+h2 {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14pt;
+  color: #333366;
+}
+
+h3 {
+  font-family: Verdana, Arial, Helvetica;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 10pt;
+  color: #333366;
+}
+
+
+
+
+-->
+</STYLE>
