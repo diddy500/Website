@@ -2,122 +2,175 @@
 session_start();
 
 /*
-		4U2Do!... add database connectivity code here...
-*/
-
+  4U2Do!... add database connectivity code here...
+ */
+$db_connection = mysqli_connect("localhost", "root", "", "devinvanwart");
 
 /*
  * 	INITIALIZE CART (only done first time here)
- *	The cart is actually just an array storing the product codes and cumulative quantities.
+ * 	The cart is actually just an array storing the product codes and cumulative quantities.
  *  We also have 2 variables to keep track of total number of items in the cart,
  *  and number of products.
  */
 
 if (!isset($_SESSION['cart'])) {
-	$_SESSION['cart'] = array();	//  create empty array
-	$_SESSION['num_items'] = 0;
-	$_SESSION['num_products'] = 0;
+    $_SESSION['cart'] = array(); //  create empty array
+    $_SESSION['num_items'] = 0;
+    $_SESSION['num_products'] = 0;
 }
 
 
 /*
- *	ADD ITEM TO CART (via URL parameters product and quantity... requires both)
+ * 	ADD ITEM TO CART (via URL parameters product and quantity... requires both)
  */
 
 if (isset($_GET['product']) and isset($_GET['quantity'])) {
 
-	// Check whether the item is already in the cart
-	for ($i=0; $i<$_SESSION['num_products']; $i++) {
-		if ($_SESSION['cart'][$i]['name'] == $_GET['product']) {
-			$_SESSION['cart'][$i]['qty']+=$_GET['quantity'];
-			$in_cart = true;
-		}
-	}
-	
-	// If item is not in cart, add it
-	if (!isset($in_cart)) {
-		$_SESSION['cart'][$_SESSION['num_products']]['name'] = $_GET['product'];
-		$_SESSION['cart'][$_SESSION['num_products']]['qty'] = $_GET['quantity'];
-		$_SESSION['num_products']++;
-	}
-	
-	// Increment the number of cart items
-	$_SESSION['num_items']+=$_GET['quantity'];
-} 
+    // Check whether the item is already in the cart
+    for ($i = 0; $i < $_SESSION['num_products']; $i++) {
+        if ($_SESSION['cart'][$i]['name'] == $_GET['product']) {
+            $_SESSION['cart'][$i]['qty']+=$_GET['quantity'];
+            $in_cart = true;
+        }
+    }
 
+    // If item is not in cart, add it
+    if (!isset($in_cart)) {
+        $_SESSION['cart'][$_SESSION['num_products']]['name'] = $_GET['product'];
+        $_SESSION['cart'][$_SESSION['num_products']]['qty'] = $_GET['quantity'];
+        $_SESSION['num_products'] ++;
+    }
+
+    // Increment the number of cart items
+    $_SESSION['num_items']+=$_GET['quantity'];
+    
+}
 ?>
 
-
+<!DOCTYPE html>
 <html>
-<head>
-	<title>Shopping Cart Demo</title>
-	<LINK HREF="../Include/Generic.css" TYPE="text/css" REL="STYLESHEET">
-</head>
 
-<body>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="UTF-8">
 
-
-
-<TABLE WIDTH="100%" HEIGHT="100%" BGCOLOR="#FFFFFF">
-<TR>
-<TD><img src="../Images/50sShopping.jpg" width="168" height="170" border="0" align="right"></TD>
-<TD ALIGN="LEFT" VALIGN="MIDDLE"> 
-						 
-<?php
-
-/*
- *	DISPLAY CART CONTENTS
- */
-
-for ($i=0; $i<$_SESSION['num_products']; $i++) {
-	
-	// Simple quantity modification mechanism
-	echo '( <a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=1>+</a> )  ';
-	
-	// Since these items are stored in a database,
-	// we only need to store the product code (primary key?) in the session.
-	echo $_SESSION['cart'][$i]['name'] . ' - ' . $_SESSION['cart'][$i]['qty'] . '<br />';
-	
-	/*
-		4U2Do!... Do some database lookups and stuff to display product details...
-	*/
-}
+        <title>
+            Sign In : Elon's World
+        </title>
 
 
 
-/*
- *	CART FOOTER
- */
+        <meta name="description"  		content="Sign in to your Elon's World account!" />
+        <meta name="author"       		content="Devin Vanwart, Devin.Vanwart@gmail.com" />
+        <meta name="designer"       	content="Nick Taggart, nick.taggart@nbcc.ca" />
 
-echo '<br /><hr width=60% /><br />';
-echo 'Number of Items in Cart: ' . $_SESSION['num_items'] . '<br />';
-echo 'Number of Products in Cart: ' . $_SESSION['num_products'] . '<br />';
+        <link href="/Include/bootstrap-3.3.5-dist/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 
-if ($_SESSION['num_items'] != 0) {
-   echo '<br /><br /><a href="javascript: history.go(-1)">Continue Shopping</a>';
-   echo '<br /><a href="Checkout.php">Checkout</a>';
-}
-else {
-   echo '<br /><br /><a href="../index.php">Visit our home page</a>';
-}
+        <link rel="shortcut icon" href="/favicon.ico">
+
+        <script language="javascript" src="/Include/menuitems.js" type="text/javascript"></script>
+        <script language="javascript" src="/Include/menu.js" type="text/javascript"></script>
+        <script language="javascript" src="/Include/caricafoto.js" type="text/javascript"></script>
 
 
-?>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="/Include/bootstrap-3.3.5-dist/js/bootstrap.min.js" type="text/javascript"></script>
 
-</TD>
-</TR>
-</TABLE>
+        <link href="/Include/ProductPage.css" type="text/css" rel="stylesheet" />
+        
+        <script>
+            function PopUp(url, w, h)
+            {
+                window.open(url, 'PopUp', 'width=' + w + ', height=' + h +', toolbar=no, directories=no, status=no, scrollbars=no, resizable=no, menubar=no, location=no, copyhistory=no');
+            }
+        </script>
 
-<?php
-// "Behind the scenes"
-// Activate this code if you want to see all your session variables in readable format
-// Useful for debugging!
+    </head>
 
-	echo '<pre>';
-		print_r($_SESSION);
-	echo '</pre>';
+    <body>
 
-?>
-  
-</body>
+        <!-- navbar content -->
+        <?php include('../include/Navbar.php'); ?>
+        <!-- end of navbar content -->
+
+
+        <!-- Main -->
+        <div class="wrap">-
+
+            <div class='container'>
+
+                <div class="row">
+
+                    <div class="col-md-2">
+                        <?php include ('../Include/LeftAds.php'); ?>
+                    </div>
+
+                    <div class="col-md-10">
+                        <table class="table table-hover">
+                            
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Availability</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            
+                            $grandTotal = 0;
+                            
+                            for ($i=0; $i<$_SESSION['num_products']; $i++)
+                            {
+                                
+                                $cartSQL = "SELECT ProductName, NumInStock, Price FROM products WHERE ProductCode = '" . $_SESSION['cart'][$i]['name'] . "'";
+                                $cartRS = mysqli_query($db_connection, $cartSQL);
+                                $cartResult = mysqli_fetch_row($cartRS);
+                                
+                                $inStockText = ($cartResult[1] > 0) ? "In stock" : "Out of stock";
+                                
+                                $_SESSION['cart'][$i]['qty'] = ($_SESSION['cart'][$i]['qty'] < 0) ? 0 : $_SESSION['cart'][$i]['qty'];
+                                if($_SESSION['cart'][$i]['qty'] > 0)
+                                {
+                                    echo('<tr>');
+                                        echo('<th><a href=javascript:PopUp("PopUpProdDesc.php?ProdID=' . $_SESSION['cart'][$i]['name'] . '",300,300)>' . $cartResult[0] . '</a></th>');
+                                        echo('<th>' . $inStockText . '</th>');
+                                        echo('<th><a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=-1>- </a>' . $_SESSION['cart'][$i]['qty'] . '<a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=1> +</a></th>');
+                                        echo('<th>' . $cartResult[2] . '</th>');
+                                        echo('<th>' . ($_SESSION['cart'][$i]['qty'] * $cartResult[2]) . '</th>');
+                                    echo('<tr>');
+                                    
+                                    $grandTotal += ($cartResult[0] * $cartResult[2]);
+                                }
+                                
+                            }
+                            
+                            echo('<tr>');
+                                echo('<th></th><th></th><th></th><th>Subtotal:</th>');
+                                echo('<th>' . $grandTotal . '</th>');
+                            echo('</tr>');
+                            
+                            ?>
+                            </tbody>
+                            
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <?php include("../include/Footer.php"); ?>
+                </div>
+
+            </div>
+
+        </div>
+
+    </body>
+
+
 </html>
+

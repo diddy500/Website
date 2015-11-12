@@ -1,4 +1,4 @@
-<STYLE type="text/css">
+/*<STYLE type="text/css">*/
 <!--
 
 /* IDs (unique areas on page) */
@@ -71,8 +71,8 @@
 }
 
 #Footer {
-	//position: relative;  
-	//left: -100px;  
+	/*position: relative;  
+	left: -100px;  */
 	text-align: center;
 	background-color: #EEEEEE; 	
 }
@@ -92,10 +92,10 @@
 }
 
 #LeftAds {
-	//position: relative; 
-	//top: 400px; 
-	//left:0px;  
-	//padding-left: 5px;  
+	/*position: relative; 
+	top: 400px; 
+	left:0px;  
+	padding-left: 5px;  */
 	width: 165px;
 }
 
@@ -238,4 +238,4 @@ h3 {
 
 
 -->
-</STYLE>
+/*</STYLE>*/

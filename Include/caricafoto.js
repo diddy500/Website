@@ -1,6 +1,6 @@
 
-<!-- This script and many more are available free online at -->
-<!-- The JavaScript Source!! http://javascript.internet.com -->
+//<!-- This script and many more are available free online at -->
+//<!-- The JavaScript Source!! http://javascript.internet.com -->
 
 
 function CaricaFoto(img){

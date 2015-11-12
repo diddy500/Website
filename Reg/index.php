@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+<!DOCTYPE html>
 <html>
 
     <head>
@@ -38,7 +42,6 @@
 
             function EditFields(frm)
             {
-                alert("EditFields method successfully called\n\nIf you do not receive a Leaving EditFields message,\nyou probably have a typo in your code!");
 
                 var success = true;
                 var message = "";
@@ -209,12 +212,11 @@
                 }
 
                 //end of validation checking for failed validation 
-                if (message != "")
+                if (message !== "")
                 {
                     success = false;
                     alert(message);
                 }
-                alert("Leaveing editfields")
                 return success;
             }
             
@@ -247,7 +249,6 @@
                     document.cookie = "InterestHyper=" + frm.elements["chkHprl"].checked + ";" + strExpDate;
                     
                     success = true;
-                    alert("cookies writen");
                 }
                 else
                 {
@@ -302,7 +303,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label"  for="pass">Password:</label>
-                                        <input type='text' name="Pass" id="pass" class="form-control" tabindex="5">
+                                        <input type='password' name="Pass" id="pass" class="form-control" tabindex="5">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label"  for="hTele">Home Telephone:</label>
@@ -370,11 +371,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label"  for="email">Email:</label>
-                                        <input type='text' name="Email" id="email" class="form-control" tabindex="4">
+                                        <input type='email' name="Email" id="email" class="form-control" tabindex="4">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label"  for="confPass">Confirm Password:</label>
-                                        <input type='text' name="ConfPass" id="confPass" class="form-control" tabindex="6">
+                                        <input type='password' name="ConfPass" id="confPass" class="form-control" tabindex="6">
                                     </div>
                                     <div class="form-group">
                                         <label class="control-label"  for="wTele">Work Telephone:</label>

@@ -1,9 +1,9 @@
-<div id="LeftAds">
-    <div style="align: left; height: 30; background-color: #FF0000;">
+<div style="background-color: #EBF5FF;">
+    <div style="align: left; background-color: #FF0000;">
         <P ALIGN="center"><B><FONT COLOR="#FFFF00">Deal of the Week!</FONT></B> </P>
     </div>
 
-    <div style="height: 90px; background-color: #EBF5FF;">
+    <div >
         <CENTER>
             <A HREF="/Tesla/index.php#TESL001">
                 <IMG SRC="/Tesla/Images/TESL001_sm.jpg" WIDTH="100" HEIGHT="61" BORDER="0"></A> 
@@ -15,7 +15,7 @@
         </CENTER>
     </div>
 
-    <div style="height: 30px; background-color: #FF0000;">
+    <div style="background-color: #FF0000;">
         <P ALIGN="CENTER"><B><FONT COLOR="#FFFF00">Save 50%!</FONT></B> </P>
     </div>
 

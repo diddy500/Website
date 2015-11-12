@@ -1,9 +1,9 @@
-<SCRIPT LANGUAGE="JavaScript">
+/*<SCRIPT LANGUAGE="JavaScript">
 <!-- This script and many more are available free online at -->
 <!-- The JavaScript Source!! http://javascript.internet.com -->
 <!-- Original:  Andy Angrick/Mike Barone -->
 <!-- Web Site:  http://www.cgiscript.net/datetoday.htm -->
-<!-- Begin
+<!-- Begin*/
 // Get today's current date.
 var now = new Date();
 
@@ -30,6 +30,6 @@ today =  days[now.getDay()] + " " +
 // Print out the data.
 document.write(" " +today+ " ");
 //  End -->
-</script>
+//</script>
 
 

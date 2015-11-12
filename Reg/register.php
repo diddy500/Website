@@ -1,4 +1,5 @@
 <?php
+session_start();
 $firstName = isset($_COOKIE['FirstName']) ? $_COOKIE['FirstName'] : "no";
 $lastName = isset($_COOKIE['LastName']) ? $_COOKIE['LastName'] : "no";
 $title = isset($_COOKIE['Title']) ? $_COOKIE['Title'] : "no";
@@ -19,13 +20,28 @@ $InterestSpaceX = isset($_COOKIE['InterestSpaceX']) ? $_COOKIE['InterestSpaceX']
 $InterestTesla = isset($_COOKIE['InterestTesla']) ? $_COOKIE['InterestTesla'] : "false";
 $InterestHyper = isset($_COOKIE['InterestHyper']) ? $_COOKIE['InterestHyper'] : "false";
 
-$db_connection = mysqli_connect("localhost", "root", "", "devinvanwart")or die("Not connected: " . mysql_error());
+//hashing pass
+$hashedPassword = password_hash($Password, PASSWORD_DEFAULT);
 
-$sql = "INSERT INTO `customers`(`Email`, `FName`, `LName`, `Title`, `Password`, `HomeTele`, `WorkTele`, `Address1`, `Address2`, `Province`, `ccType`, `ccName`, `ccMonth`, `ccYear`, `LanguagePref`, `InterestSpaceX`, `InterestTesla`, `InterestHyper`) VALUES ('" . $email . "','" . $firstName . "','" . $lastName . "','" . $title . "','" . $Password . "','" . $HomeTele . "','" . $WorkTele . "','" . $Address1 . "','" . $Address2 . "','" . $Province . "','" . $CreditCardType . "','" . $CardholderName . "','" . $ExpMonth . "','" . $ExpYear . "','" . $LanguagePref . "'," . $InterestSpaceX . "," . $InterestTesla . "," . $InterestHyper . ")";
-$sql = \filter_var($sql, \FILTER_SANITIZE_STRING);
-mysqli_query($db_connection, $sql);
+
+$db_connection = mysqli_connect("localhost", "root", "", "devinvanwart");
+
+//seeing if email is already registered
+$checkSQL = "SELECT Email FROM customers WHERE Email = '$email'";
+$wasSuccess;
+if(mysqli_num_rows(mysqli_query($db_connection, $checkSQL)) < 1)
+{
+    $sql = "INSERT INTO `customers`(`Email`, `FName`, `LName`, `Title`, `Password`, `HomeTele`, `WorkTele`, `Address1`, `Address2`, `Province`, `ccType`, `ccNumber`, `ccName`, `ccMonth`, `ccYear`, `LanguagePref`, `InterestSpaceX`, `InterestTesla`, `InterestHyper`) VALUES ('" . $email . "','" . $firstName . "','" . $lastName . "','" . $title . "','" . $hashedPassword . "','" . $HomeTele . "','" . $WorkTele . "','" . $Address1 . "','" . $Address2 . "','" . $Province . "','" . $CreditCardType . "','" . $CreditCardNumber . "','" . $CardholderName . "','" . $ExpMonth . "','" . $ExpYear . "','" . $LanguagePref . "'," . $InterestSpaceX . "," . $InterestTesla . "," . $InterestHyper . ")";
+    mysqli_query($db_connection, $sql);
+    $wasSuccess = TRUE;
+}
+else
+{
+    $wasSuccess = FALSE;
+}
 ?>
 
+<!DOCTYPE html>
 <html>
 
     <head>
@@ -87,7 +103,16 @@ mysqli_query($db_connection, $sql);
 
                         <?php
                         
-                        echo ($sql);
+                        if($wasSuccess)
+                        {
+                            echo ('<h3>' . $firstName . ' ' . $lastName . '</h3>');
+                            echo ('<p>Thank you for registering! You can now sign in.</p>');
+                        }
+                        else
+                        {
+                            echo ('<h3>Error</h3>');
+                            echo ('<p>This email is already associated with an account.</p>');
+                        }
                         
                         ?>
 

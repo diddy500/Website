@@ -1,7 +1,9 @@
 <?php
+session_start();
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 header("Pragma: no-cache");
+
 ?> 
 
 <?php
@@ -31,7 +33,7 @@ if(!$pageRow['Department'] || !$pageRow['Category'])
 $department = $pageRow['Department'];
 $category = $pageRow['Category'];
 $sql = "SELECT `ProductCode`, `AltImageRef`, `ProductName`, `ProductDescription`, `Category`, `Department`, `ThumbHeight`, `Price`, `SalePrice`, `SaleStart`, `SaleEnd`, `Feature1`, `Feature2`, `Feature3`, `Feature4`, `NumInStock` FROM `products` WHERE `Category`= '" . $category . "' AND `Department` = '" . $department . "'";
-$rs = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error());
+$prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error());
 ?>
 
 <html>
@@ -43,7 +45,6 @@ $rs = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error());
             <?php echo($pageRow['Category'] . " : " . $pageRow['Department'] . " : Elon's World") ?> 
         </title>
 
-        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"> 
         <?php echo("<meta name='description'  		content='" . $pageRow['Meta'] . "' />")?>
         <meta name="author"       		content="Devin Vanwart, Devin.Vanwart@gmail.com" />
         <meta name="designer"       	content="Nick Taggart, nick.taggart@nbcc.ca" />
@@ -89,7 +90,9 @@ $rs = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error());
                     <!-- Display a product -->  
                     <div class="col-md-10">
                         <?php
-                        while ($row = mysqli_fetch_array($rs)) {
+                        
+                        print_r($prodRS);
+                        while ($row = mysqli_fetch_array($prodRS)) {
                             $image;
                             if($row['AltImageRef'])
                             {
@@ -135,8 +138,13 @@ $rs = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error());
 
                             echo("<br />
                         <!-- Note Product Code in URL parameter for shopping cart -->
-                        <a href='/Cart/index.php?product=" . $row['ProductCode'] . "&quantity=1'>
-                            <img alt='Add to Cart' src='/Images/addtocart.gif' border='0' align='right' width='74' height='21' /> </a>
+                        <div class='col-md-6 col-md-offset-6'>
+                        <form action='/Cart/index.php' method='GET' class='form-inline'>
+                            <input type='hidden' name='product' value='" . $row['ProductCode'] . "'>
+                            <input type='text' class='form-control' name='quantity' value='1'>
+                            <input type='submit' class='btn btn-dafault' value='Add to cart'>
+                        </form>
+                        </div>
                         <br clear='ALL' /><br /><br />
                         <p  align='right'><a href='#Top'>Back to Top</a></p>
                         <hr width='80%' color='#3366cc' />
