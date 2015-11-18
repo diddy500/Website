@@ -144,7 +144,7 @@ if (isset($_GET['product']) and isset($_GET['quantity'])) {
                                         echo('<th>' . ($_SESSION['cart'][$i]['qty'] * $cartResult[2]) . '</th>');
                                     echo('<tr>');
                                     
-                                    $grandTotal += ($cartResult[0] * $cartResult[2]);
+                                    $grandTotal += ($cartResult[1] * $cartResult[2]);
                                 }
                                 
                             }
@@ -158,6 +158,7 @@ if (isset($_GET['product']) and isset($_GET['quantity'])) {
                             </tbody>
                             
                         </table>
+                        <a href="checkout.php" class="btn btn-default" role="button">Checkout</a>
                     </div>
                 </div>
 

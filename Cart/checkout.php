@@ -61,25 +61,38 @@ $db_connection = mysqli_connect("localhost", "root", "", "devinvanwart");
                         if (isset($_SESSION['user'])) {
                             if (isset($_GET['checkout'])) {
                                 
-                                $checkoutSQL = "INSERT INTO orders(Email) VALUES ('" . $_SESSION['user'] . "')";
-                                mysqli_query($db_connection, $checkoutSQL);
+                                $itemTotal = 0;
                                 
-                                $orderID = mysqli_insert_id($db_connection);
                                 for($i = 0; $i < $_SESSION['num_products']; $i++)
                                 {
-                                    $checkoutSQL = "INSERT INTO orderlines(OrderID, ProductCode, Quantity) VALUES ( '" . $orderID . "', '" . $_SESSION['cart'][$i]['name'] . "', " . $_SESSION['cart'][$i]['qty'] . ")";
-                                    mysqli_query($db_connection, $checkoutSQL);
-                                    
+                                    $itemTotal += $_SESSION['num_products'][$i]['qty'];
                                 }
                                 
-                                // unset variables
-                                $_SESSION['cart'] = array(); //  empty array
-                                unset($_SESSION['num_items']);
-                                unset($_SESSION['num_products']);
-                                // destroy the session
-                                session_destroy();
+                                if($itemTotal > 0){
+                                    $checkoutSQL = "INSERT INTO orders(Email) VALUES ('" . $_SESSION['user'] . "')";
+                                    mysqli_query($db_connection, $checkoutSQL);
 
-                                echo '<h2>Checked out successfully.</h2>';
+                                    $orderID = mysqli_insert_id($db_connection);
+                                    for($i = 0; $i < $_SESSION['num_products']; $i++)
+                                    {
+                                        $checkoutSQL = "INSERT INTO orderlines(OrderID, ProductCode, Quantity) VALUES ( '" . $orderID . "', '" . $_SESSION['cart'][$i]['name'] . "', " . $_SESSION['cart'][$i]['qty'] . ")";
+                                        mysqli_query($db_connection, $checkoutSQL);
+
+                                    }
+
+                                    // unset variables
+                                    $_SESSION['cart'] = array(); //  empty array
+                                    unset($_SESSION['num_items']);
+                                    unset($_SESSION['num_products']);
+                                    // destroy the session
+                                    session_destroy();
+
+                                    echo '<h2>Checked out successfully.</h2>';
+                                }
+                                else
+                                {
+                                    echo '<h2>Cart is empty</h2><p>Please select some items before checking out.</p>';
+                                }
                             } 
                             else {
                                 echo '

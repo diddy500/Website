@@ -1,5 +1,5 @@
 /*
-SQLyog Community v12.16 (64 bit)
+SQLyog Community v12.14 (64 bit)
 MySQL - 5.6.17 : Database - devinvanwart
 *********************************************************************
 */
@@ -63,12 +63,15 @@ CREATE TABLE `orderlines` (
   KEY `ProductCode` (`ProductCode`),
   CONSTRAINT `orderlines_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`),
   CONSTRAINT `orderlines_ibfk_2` FOREIGN KEY (`ProductCode`) REFERENCES `products` (`ProductCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 
 /*Data for the table `orderlines` */
 
 insert  into `orderlines`(`OrderLineID`,`OrderID`,`ProductCode`,`Quantity`) values 
-(1,1,'LOOP004',1);
+(1,1,'LOOP004',1),
+(2,2,'SPCX001',2),
+(3,2,'LOOP001',4),
+(4,2,'SPCX004',1);
 
 /*Table structure for table `orders` */
 
@@ -80,12 +83,13 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`OrderID`),
   KEY `Email` (`Email`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `customers` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `orders` */
 
 insert  into `orders`(`OrderID`,`Email`) values 
-(1,'devin.vanwart@gmail.com');
+(1,'devin.vanwart@gmail.com'),
+(2,'devin.vanwart@gmail.com');
 
 /*Table structure for table `pageids` */
 
