@@ -91,7 +91,6 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
                     <div class="col-md-10">
                         <?php
                         
-                        print_r($prodRS);
                         while ($row = mysqli_fetch_array($prodRS)) {
                             $image;
                             if($row['AltImageRef'])

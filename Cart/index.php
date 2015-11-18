@@ -55,12 +55,12 @@ if (isset($_GET['product']) and isset($_GET['quantity'])) {
         <meta charset="UTF-8">
 
         <title>
-            Sign In : Elon's World
+            Cart : Elon's World
         </title>
 
 
 
-        <meta name="description"  		content="Sign in to your Elon's World account!" />
+        <meta name="description"  		content="View your cart!" />
         <meta name="author"       		content="Devin Vanwart, Devin.Vanwart@gmail.com" />
         <meta name="designer"       	content="Nick Taggart, nick.taggart@nbcc.ca" />
 
