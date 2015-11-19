@@ -82,7 +82,7 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
                 var commentDiv;
                 if (data == "")
                 {
-                    commentDiv = '<div class="user_comment">'
+                    commentDiv = '<div class="user_comment" id="thefirst">'
                             + '<p>Customer reviews are submitted by consumers like you everyday! '
                             + 'These perspectives are a series of views of the product in different settings '
                             + 'that may help you in your purchasing decisions. '
