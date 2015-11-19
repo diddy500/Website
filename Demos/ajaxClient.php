@@ -9,11 +9,11 @@
 <?php
 // Database Connectivity
 
-	$db_connected = mysql_connect("localhost", "root", "")
+	$db_connected = mysqli_connect("localhost", "root", "","AjaxDemo")
 		or die("Not connected : " . mysql_error());
 	$db_name = "ajaxDemo";
-	$db_selected = mysql_select_db($db_name, $db_connected)
-		or die("Not selected : " . mysql_error());
+	//$db_selected = mysql_select_db($db_name, $db_connected)
+	//	or die("Not selected : " . mysql_error());
 ?>
 
 
@@ -70,6 +70,7 @@
 		// The $.get function is one utilization of JQuery's ajax capability
 		// Ref http://api.jquery.com/jQuery.get 
 		$.get(
+		
 			// (STEP.4)Parameter 1: the url of the remote script - Ref YeS4.7.30							
 			// ajaxServer.php is the code that will insert our data into the appropriate table				
 			// It receives data from this page, executes at the server, and returns control to this page.	
@@ -87,7 +88,7 @@
 				// DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE 	
 				// If you're having problems with your ajaxServer page, 															
 				// activate the following alert line *and* change parameter 4 below to "html".										
-				// alert(data);	
+				 alert(data);	
 				// DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE DEBUG CODE	
 				
 				// Build a comment element to be added to the page - Ref YeS4.7.60			
@@ -145,10 +146,10 @@
 	 <?php
 	 
 		  $strSQL = "SELECT name, comment FROM comments ORDER BY id DESC"; 
-		  $rsComments = mysql_query($strSQL)
+		  $rsComments = mysqli_query($db_connected, $strSQL)
 				or die($db_name . " : " . $strSQL . " : " . mysql_error());
 		  
-		  if ( mysql_num_rows($rsComments) == 0 ) { 
+		  if ( mysqli_num_rows($rsComments) == 0 ) { 
 		  	 echo '
 					 <div class="user_comment" id="thefirst">
 					 	    <p>Customer reviews are submitted by consumers like you everyday! 
@@ -159,7 +160,7 @@
 				';
 		  
 		   }
-		   else while ($rowComments = mysql_fetch_array($rsComments)) {
+		   else while ($rowComments = mysqli_fetch_array($rsComments)) {
 		  		echo '
 					 <div class="user_comment">
 					 	  <p>Submitted By: <span class="user_comment_name">' . $rowComments['name'] . '</span></p>
@@ -169,7 +170,7 @@
 				';
 		  }
 		  
-		  mysql_close($db_connected);
+		  mysqli_close($db_connected);
 	 ?>
 	 </div>
 

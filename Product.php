@@ -3,28 +3,25 @@ session_start();
 header("Cache-Control: no-cache, must-revalidate");
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 header("Pragma: no-cache");
-
 ?> 
 
 <?php
 //getting connection
 $db_connection = mysqli_connect("localhost", "root", "", "devinvanwart")or die("Not connected: " . mysql_error());
 
-$PageID = empty($_GET['PageID'])? "" : $_GET['PageID'];
-if(!$PageID)
-{
-    $PageID=100;
+$PageID = empty($_GET['PageID']) ? "" : $_GET['PageID'];
+if (!$PageID) {
+    $PageID = 100;
 }
 
 $pageSQL = $sql = "SELECT `PageID`, `Department`, `Category`, `Meta` FROM `pageids` WHERE PageID = " . $PageID . ";";
 $pageRS = mysqli_query($db_connection, $pageSQL) or die($pageSQL . " : " . mysql_error());
 
-        
+
 //getting recordset
 
 $pageRow = mysqli_fetch_array($pageRS);
-if(!$pageRow['Department'] || !$pageRow['Category'])
-{
+if (!$pageRow['Department'] || !$pageRow['Category']) {
     $PageID = 100;
     $pageSQL = $sql = "SELECT `PageID`, `Department`, `Category`, `Meta` FROM `pageids` WHERE PageID = " . $PageID . ";";
     $pageRS = mysqli_query($db_connection, $pageSQL) or die($pageSQL . " : " . mysql_error());
@@ -45,7 +42,7 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
             <?php echo($pageRow['Category'] . " : " . $pageRow['Department'] . " : Elon's World") ?> 
         </title>
 
-        <?php echo("<meta name='description'  		content='" . $pageRow['Meta'] . "' />")?>
+        <?php echo("<meta name='description'  		content='" . $pageRow['Meta'] . "' />") ?>
         <meta name="author"       		content="Devin Vanwart, Devin.Vanwart@gmail.com" />
         <meta name="designer"       	content="Nick Taggart, nick.taggart@nbcc.ca" />
 
@@ -67,6 +64,89 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
         <script src="/Include/bootstrap-3.3.5-dist/js/bootstrap.min.js" type="text/javascript"></script>
 
         <link href="/Include/ProductPage.css" type="text/css" rel="stylesheet" />
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+                $(".open-review").click(function () {
+                    $('#prodCode').val($(this).data('code'));
+                    $.get("ajaxServer.php", {"code": $(this).data('code')}, updateModal);
+                });
+            });
+
+            function updateModal(data)
+            {
+                $("#previously_submitted_comments").empty();
+                $("#reviewForm").show();
+
+                var commentDiv;
+                if (data == "")
+                {
+                    commentDiv = '<div class="user_comment">'
+                            + '<p>Customer reviews are submitted by consumers like you everyday! '
+                            + 'These perspectives are a series of views of the product in different settings '
+                            + 'that may help you in your purchasing decisions. '
+                            + 'We do not filter reviews based on positive or negative content.</p>'
+                            + '</div>';
+
+                    $("#previously_submitted_comments").prepend(commentDiv);
+                    return;
+                }
+
+                var data = $.parseJSON(data);
+                $.each(data, function (key, value)
+                {
+                    commentDiv = '<div class="user_comment">'
+                            + '<h5><span class="user_comment_name">'
+                            + 'Commented by: ' + value[0]
+                            + '</span></h5>'
+                            + '<p>Rating: <img src="Images/stars_rating_0' + value[2] + '.gif" alt=""></p>'
+                            + '<p class="user_comment_text">'
+                            + value[1]
+                            + '</p></div>';
+
+                    $("#previously_submitted_comments").prepend(commentDiv);
+                });
+
+
+            }
+
+            function frmComment_submit() {
+
+
+
+                // The $.get function is one utilization of JQuery's ajax capability
+                $.get("ajaxServer.php", $("#reviewForm").serializeArray(),
+                        // Parameter 3: the callback function
+                                function (data) {
+
+                                    // Build a comment element to be added to the page
+                                    var commentDiv = '<div class="user_comment">'
+                                            + '<h5><span class="user_comment_name">'
+                                            + 'You commented:'
+                                            + '</span></h5>'
+                                            + '<p>Rating: <img src="Images/stars_rating_0' + data.Rating + '.gif" alt=""></p>'
+                                            + '<p class="user_comment_text">'
+                                            + data.Review
+                                            + '</p></div>';
+
+                                    // Change #4 - effects added
+                                    // Prepend the comment to the appropriate element
+                                    $("#previously_submitted_comments").prepend(commentDiv).slideDown("slow");
+                                    // Comment was submitted, so hide "the first" message
+                                    $("#thefirst").hide();
+                                    $("#reviewForm").hide();
+
+                                },
+                                "json"
+                                );
+                        return false;
+                    }
+
+
+
+        </script>
+
     </head>
 
     <body>
@@ -81,6 +161,11 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
 
             <div class='container'>
 
+
+
+                <?php include ('Reviews.php'); ?>
+
+
                 <div class="row">
                     <!-- left ads -->
                     <div class="col-md-2">
@@ -90,16 +175,28 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
                     <!-- Display a product -->  
                     <div class="col-md-10">
                         <?php
-                        
                         while ($row = mysqli_fetch_array($prodRS)) {
-                            $image;
-                            if($row['AltImageRef'])
-                            {
-                                $image = $row['AltImageRef'];
-                                
+
+                            $ratingRS = mysqli_query($db_connection, "Select Rating FROM reviews WHERE ProductCode='" . $row['ProductCode'] . "'");
+                            $rating = 0;
+                            $ratingNum = 0;
+                            $isRated = true;
+                            while ($ratingRow = mysqli_fetch_row($ratingRS)) {
+                                $rating += $ratingRow[0];
+                                $ratingNum++;
                             }
-                            else
-                            {
+                            if ($ratingNum > 0) {
+                                $rating /= $ratingNum;
+                                $rating = round($rating);
+                            } else {
+                                $rating = 0;
+                                $isRated = false;
+                            }
+
+                            $image;
+                            if ($row['AltImageRef']) {
+                                $image = $row['AltImageRef'];
+                            } else {
                                 $image = $row['ProductCode'];
                             }
                             echo("
@@ -136,8 +233,31 @@ $prodRS = mysqli_query($db_connection, $sql) or die($sql . " : " . mysql_error()
                             }
 
                             echo("<br />
-                        <!-- Note Product Code in URL parameter for shopping cart -->
-                        <div class='col-md-6 col-md-offset-6'>
+                        <!-- Note Product Code in URL parameter for shopping cart -->");
+                            if($isRated)
+                            {
+                                echo ("<p>Overall rating: <img src='Images/stars_rating_0" . $rating . ".gif' alt=''></p>");
+                            }
+                            else
+                            {
+                                echo ("<p>Overall rating: Product is not yet rated</p>");
+                            }
+                                    
+                            if (isset($_SESSION['user'])) {
+                                echo("<div class='col-md-6'>
+                                        <button type='button' class='btn btn-info open-review' data-toggle='modal' data-code='" . $row['ProductCode'] . "' data-target='#reviewModal'>View Comments</button>
+                                        <button type='button' class='btn btn-info open-review' data-toggle='modal' data-code='" . $row['ProductCode'] . "' data-target='#reviewModal'>Write Comment</button>
+                                    </div>");
+                            } 
+                            else 
+                            {
+                                echo("<div class='col-md-6'>
+                                        <button type='button' class='btn btn-info open-review' data-toggle='modal' data-code='" . $row['ProductCode'] . "' data-target='#reviewModal'>View Comments</button>
+                                    </div>");
+                            }
+                            echo ("
+                        
+                        <div class='col-md-6'>
                         <form action='/Cart/index.php' method='GET' class='form-inline'>
                             <input type='hidden' name='product' value='" . $row['ProductCode'] . "'>
                             <input type='text' class='form-control' name='quantity' value='1'>

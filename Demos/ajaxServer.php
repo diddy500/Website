@@ -17,10 +17,10 @@
 
 
 // Connect to database - Ref YeSV4.8.30
-$db = mysql_connect("localhost", "root", "")
+$db = mysqli_connect("localhost", "root", "","AjaxDemo")
 		or die(mysql_error());
 		
-mysql_select_db("ajaxDemo", $db);
+//mysql_select_db("ajaxDemo", $db);
 
 // STEP.6 -- Build an SQL string, insert new comment into the database.												
 //																													
@@ -28,28 +28,28 @@ mysql_select_db("ajaxDemo", $db);
 // or a missing ' or , will cause this page	to stop working!														
 //																													
 // Ref YeSV4.8.40 , .50																								
-mysql_query("INSERT INTO comments (name, comment) VALUES ('" 
+mysqli_query($db, "INSERT INTO comments (name, comment) VALUES ('" 
 
-					. mysql_real_escape_string($_GET['name']) . 
+					. mysqli_real_escape_string($db, $_GET['name']) . 
 					
 					"', '" 
 					
-					. mysql_real_escape_string($_GET['comment']) . 
+					. mysqli_real_escape_string($db, $_GET['comment']) . 
 					
 					"')"
 			);
 			
 // Retrieves the ID generated for an AUTO_INCREMENT column by the previous query (usually INSERT). 		
-$insert_id = mysql_insert_id();
+$insert_id = mysqli_insert_id($db);
 
 // Ref YeSV4.8.60 ... Can you SELECT the newly inserted comment?	Proves it was inserted correctly!	
-$rs = mysql_query("SELECT name, comment FROM comments WHERE id={$insert_id}");
+$rs = mysqli_query($db, "SELECT name, comment FROM comments WHERE id={$insert_id}");
 
 // Ref YeSV4.8.70 ... Retrieve the newly inserted comment from recordset, encode into JSON.									
 // You don't really need a loop here since only 1 record should be in the recordset.										
 // The loop is included only to show you the functionality required for other scenerios that may involve multiple records.	
 // In this case, the loop should only execute 1 time.																		
-while($row = mysql_fetch_assoc($rs)) {
+while($row = mysqli_fetch_assoc($rs)) {
 	$json_out = json_encode($row);
 }
 

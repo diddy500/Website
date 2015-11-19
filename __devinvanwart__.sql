@@ -1,5 +1,5 @@
 /*
-SQLyog Community v12.14 (64 bit)
+SQLyog Community v12.16 (64 bit)
 MySQL - 5.6.17 : Database - devinvanwart
 *********************************************************************
 */
@@ -47,7 +47,8 @@ CREATE TABLE `customers` (
 
 insert  into `customers`(`Email`,`FName`,`LName`,`Title`,`Password`,`HomeTele`,`WorkTele`,`Address1`,`Address2`,`Province`,`ccType`,`ccNumber`,`ccName`,`ccMonth`,`ccYear`,`LanguagePref`,`InterestSpaceX`,`InterestTesla`,`InterestHyper`) values 
 ('admin@yoursite.com','Admin','Admin','Mr','$2y$10$YyH6/G02/cu2xpUb.ugZ8eMSWvoDs3Wnm3hsc5YM8UrV1wtnH5Crm','555-555-5555','','00 Null','','Alberta','American Express','111111111111111','ADMIN',1,2025,'English',0,0,0),
-('devin.vanwart@gmail.com','Devin','Vanwart','Mr','$2y$10$AEIPwVfvpqO056/mvSjmx.LNVjg7XhiT7klF8yEQU6UP1WbTu684W',' 15068472755',' 15068472755','590 Montgomery st.','apt 4','New Brunswick','Visa','111111111111111','DEVIN VANWART',1,2020,'English',0,0,0);
+('devin.vanwart@gmail.com','Devin','Vanwart','Mr','$2y$10$AEIPwVfvpqO056/mvSjmx.LNVjg7XhiT7klF8yEQU6UP1WbTu684W',' 15068472755',' 15068472755','590 Montgomery st.','apt 4','New Brunswick','Visa','111111111111111','DEVIN VANWART',1,2020,'English',0,0,0),
+('nick.taggart@nbcc.ca','Nick','Taggart','Mr','$2y$10$ox2LMJDidLqq1RBDZ5u86ubba9.6wCUmU0HKkZDtbI2v42KD7MKHi','555-555-5555','','00 Null','','New Brunswick','Master Card','123213','NICK TAGGART',4,2019,'English',0,0,0);
 
 /*Table structure for table `orderlines` */
 
@@ -172,6 +173,37 @@ insert  into `products`(`ProductCode`,`AltImageRef`,`ProductName`,`ProductDescri
 ('TESL007',NULL,'Tesla Hoodie','-','Merch','Tesla',100,40,NULL,NULL,NULL,NULL,NULL,NULL,NULL,20),
 ('TESL008',NULL,'Tesla Mug','-','Merch','Tesla',100,10,NULL,NULL,NULL,NULL,NULL,NULL,NULL,50),
 ('TESL009',NULL,'Tesla T-Shirt','-','Merch','Tesla',111,20,NULL,NULL,NULL,NULL,NULL,NULL,NULL,30);
+
+/*Table structure for table `reviews` */
+
+DROP TABLE IF EXISTS `reviews`;
+
+CREATE TABLE `reviews` (
+  `ReviewID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ProductCode` char(7) NOT NULL,
+  `Email` varchar(80) NOT NULL,
+  `DisplayName` varchar(255) NOT NULL,
+  `Review` varchar(500) NOT NULL,
+  `Rating` int(1) NOT NULL,
+  PRIMARY KEY (`ReviewID`),
+  KEY `ProductCode` (`ProductCode`),
+  KEY `Email` (`Email`),
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`ProductCode`) REFERENCES `products` (`ProductCode`),
+  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`Email`) REFERENCES `customers` (`Email`)
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+
+/*Data for the table `reviews` */
+
+insert  into `reviews`(`ReviewID`,`ProductCode`,`Email`,`DisplayName`,`Review`,`Rating`) values 
+(20,'SPCX001','devin.vanwart@gmail.com','Devin V','asd',3),
+(21,'SPCX001','devin.vanwart@gmail.com','Devin V','a',1),
+(22,'SPCX001','devin.vanwart@gmail.com','Devin V','asd',5),
+(23,'SPCX001','devin.vanwart@gmail.com','Devin V','asd',4),
+(24,'SPCX001','devin.vanwart@gmail.com','Devin V','asd',3),
+(25,'SPCX001','devin.vanwart@gmail.com','Devin V','asd',5),
+(26,'SPCX003','devin.vanwart@gmail.com','Devin V','asd',3),
+(27,'TESL001','devin.vanwart@gmail.com','Devin V','asd',3),
+(28,'TESL001','devin.vanwart@gmail.com','Devin V','asd',2);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
