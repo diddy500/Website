@@ -14,7 +14,7 @@ if (!$PageID) {
     $PageID = 100;
 }
 
-$pageSQL = $sql = "SELECT `PageID`, `Department`, `Category`, `Meta` FROM `pageids` WHERE PageID = " . $PageID . ";";
+$pageSQL = "SELECT `PageID`, `Department`, `Category`, `Meta` FROM `pageids` WHERE PageID = " . $PageID . ";";
 $pageRS = mysqli_query($db_connection, $pageSQL) or die($pageSQL . " : " . mysql_error());
 
 

@@ -1,8 +1,7 @@
 <?php
 
 session_start();
-$db = mysqli_connect("localhost", "root", "", "devinvanwart")
-        or die(mysql_error());
+$db = mysqli_connect("localhost", "root", "", "devinvanwart");
 
 if (isset($_GET['code'])) 
 {
@@ -16,7 +15,7 @@ if (isset($_GET['code']))
         echo $json_out;
     }
 } 
-else 
+else if(isset($_GET['prodCode']))
 {
     mysqli_query($db, "INSERT INTO reviews (ProductCode, Email, DisplayName, Review, Rating ) VALUES ('"
             . mysqli_real_escape_string($db, $_GET['prodCode']) .
@@ -42,4 +41,18 @@ else
 
     echo $json_out;
 }
+else if(isset($_GET['department']))
+{
+    $dept = $_GET['department'];
+
+    $sql="SELECT DISTINCT category FROM products WHERE department = '" . mysqli_real_escape_string($db, $dept) . "'";
+    $rs = mysqli_query($db,$sql);
+
+    while($row = mysqli_fetch_array($rs)) {
+        echo "<option value='" . $row["category"] . "'>" . $row["category"] . "</option>";
+    }
+}
+
+
+mysqli_close($db);
 ?>

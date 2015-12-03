@@ -64,7 +64,7 @@ CREATE TABLE `orderlines` (
   KEY `ProductCode` (`ProductCode`),
   CONSTRAINT `orderlines_ibfk_1` FOREIGN KEY (`OrderID`) REFERENCES `orders` (`OrderID`),
   CONSTRAINT `orderlines_ibfk_2` FOREIGN KEY (`ProductCode`) REFERENCES `products` (`ProductCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 /*Data for the table `orderlines` */
 
@@ -72,7 +72,12 @@ insert  into `orderlines`(`OrderLineID`,`OrderID`,`ProductCode`,`Quantity`) valu
 (1,1,'LOOP004',1),
 (2,2,'SPCX001',2),
 (3,2,'LOOP001',4),
-(4,2,'SPCX004',1);
+(4,2,'SPCX004',1),
+(5,4,'SPCX010',5),
+(6,4,'TESL001',6),
+(7,5,'SPCX010',1),
+(8,6,'SPCX007',0),
+(9,6,'LOOP004',1);
 
 /*Table structure for table `orders` */
 
@@ -84,13 +89,16 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`OrderID`),
   KEY `Email` (`Email`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`Email`) REFERENCES `customers` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `orders` */
 
 insert  into `orders`(`OrderID`,`Email`) values 
 (1,'devin.vanwart@gmail.com'),
-(2,'devin.vanwart@gmail.com');
+(2,'devin.vanwart@gmail.com'),
+(4,'devin.vanwart@gmail.com'),
+(5,'devin.vanwart@gmail.com'),
+(6,'devin.vanwart@gmail.com');
 
 /*Table structure for table `pageids` */
 
@@ -164,6 +172,7 @@ insert  into `products`(`ProductCode`,`AltImageRef`,`ProductName`,`ProductDescri
 ('SPCX007','SPCX003','Cargo LEO Launch','Cargo launch to low earth orbit','HeavyCargo','SpaceX',150,200000000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),
 ('SPCX008','SPCX003','Cargo Lunar Launch','Cargo launch for surface of moon','HeavyCargo','SpaceX',150,400000000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),
 ('SPCX009','SPCX003','Cargo Mars Launch','Cargo launch to mars orbit','HeavyCargo','SpaceX',150,1000000000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),
+('SPCX010',NULL,'Solar Landing','Probably a bad idea.','Manned','SpaceX',NULL,15000000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1),
 ('TESL001',NULL,'Model S P85D','-nice desc-','ModelS','Tesla',61,120000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0),
 ('TESL002',NULL,'Model S P85','Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. N','ModelS','Tesla',61,100000,NULL,NULL,NULL,'test1','test2','test3',NULL,20),
 ('TESL003',NULL,'Model S 70D','--','ModelS','Tesla',55,82000,NULL,NULL,NULL,NULL,NULL,NULL,NULL,10),
@@ -190,7 +199,7 @@ CREATE TABLE `reviews` (
   KEY `Email` (`Email`),
   CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`ProductCode`) REFERENCES `products` (`ProductCode`),
   CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`Email`) REFERENCES `customers` (`Email`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 
 /*Data for the table `reviews` */
 
@@ -203,7 +212,8 @@ insert  into `reviews`(`ReviewID`,`ProductCode`,`Email`,`DisplayName`,`Review`,`
 (25,'SPCX001','devin.vanwart@gmail.com','Devin V','asd',5),
 (26,'SPCX003','devin.vanwart@gmail.com','Devin V','asd',3),
 (27,'TESL001','devin.vanwart@gmail.com','Devin V','asd',3),
-(28,'TESL001','devin.vanwart@gmail.com','Devin V','asd',2);
+(28,'TESL001','devin.vanwart@gmail.com','Devin V','asd',2),
+(29,'SPCX010','admin@yoursite.com','Admin A','Test',5);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

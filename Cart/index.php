@@ -18,7 +18,12 @@ if (!isset($_SESSION['cart'])) {
     $_SESSION['num_items'] = 0;
     $_SESSION['num_products'] = 0;
 }
-
+if (!isset($_SESSION['num_products'])) {
+    $_SESSION['num_products'] = 0;
+}
+if (!isset($_SESSION['num_items'])) {
+    $_SESSION['num_items'] = 0;
+}
 
 /*
  * 	ADD ITEM TO CART (via URL parameters product and quantity... requires both)
@@ -124,36 +129,38 @@ if (isset($_GET['product']) and isset($_GET['quantity'])) {
                             
                             $grandTotal = 0;
                             
-                            for ($i=0; $i<$_SESSION['num_products']; $i++)
+                            if(isset($_SESSION['num_products']) && isset($_SESSION['cart']) && isset($_SESSION['num_items']))
                             {
-                                
-                                $cartSQL = "SELECT ProductName, NumInStock, Price FROM products WHERE ProductCode = '" . $_SESSION['cart'][$i]['name'] . "'";
-                                $cartRS = mysqli_query($db_connection, $cartSQL);
-                                $cartResult = mysqli_fetch_row($cartRS);
-                                
-                                $inStockText = ($cartResult[1] > 0) ? "In stock" : "Out of stock";
-                                
-                                $_SESSION['cart'][$i]['qty'] = ($_SESSION['cart'][$i]['qty'] < 0) ? 0 : $_SESSION['cart'][$i]['qty'];
-                                if($_SESSION['cart'][$i]['qty'] > 0)
+                                for ($i=0; $i<$_SESSION['num_products']; $i++)
                                 {
-                                    echo('<tr>');
-                                        echo('<th><a href=javascript:PopUp("PopUpProdDesc.php?ProdID=' . $_SESSION['cart'][$i]['name'] . '",300,300)>' . $cartResult[0] . '</a></th>');
-                                        echo('<th>' . $inStockText . '</th>');
-                                        echo('<th><a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=-1>- </a>' . $_SESSION['cart'][$i]['qty'] . '<a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=1> +</a></th>');
-                                        echo('<th>' . $cartResult[2] . '</th>');
-                                        echo('<th>' . ($_SESSION['cart'][$i]['qty'] * $cartResult[2]) . '</th>');
-                                    echo('<tr>');
-                                    
-                                    $grandTotal += ($cartResult[1] * $cartResult[2]);
+
+                                    $cartSQL = "SELECT ProductName, NumInStock, Price FROM products WHERE ProductCode = '" . $_SESSION['cart'][$i]['name'] . "'";
+                                    $cartRS = mysqli_query($db_connection, $cartSQL);
+                                    $cartResult = mysqli_fetch_row($cartRS);
+
+                                    $inStockText = ($cartResult[1] > 0) ? "In stock" : "Out of stock";
+
+                                    $_SESSION['cart'][$i]['qty'] = ($_SESSION['cart'][$i]['qty'] < 0) ? 0 : $_SESSION['cart'][$i]['qty'];
+                                    if($_SESSION['cart'][$i]['qty'] > 0)
+                                    {
+                                        echo('<tr>');
+                                            echo('<th><a href=javascript:PopUp("PopUpProdDesc.php?ProdID=' . $_SESSION['cart'][$i]['name'] . '",300,300)>' . $cartResult[0] . '</a></th>');
+                                            echo('<th>' . $inStockText . '</th>');
+                                            echo('<th><a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=-1>- </a>' . $_SESSION['cart'][$i]['qty'] . '<a href=index.php?product=' . $_SESSION['cart'][$i]['name'] . '&quantity=1> +</a></th>');
+                                            echo('<th>' . $cartResult[2] . '</th>');
+                                            echo('<th>' . ($_SESSION['cart'][$i]['qty'] * $cartResult[2]) . '</th>');
+                                        echo('<tr>');
+
+                                        $grandTotal += ($cartResult[1] * $cartResult[2]);
+                                    }
+
                                 }
-                                
+                            
+                                echo('<tr>');
+                                    echo('<th></th><th></th><th></th><th>Subtotal:</th>');
+                                    echo('<th>' . $grandTotal . '</th>');
+                                echo('</tr>');
                             }
-                            
-                            echo('<tr>');
-                                echo('<th></th><th></th><th></th><th>Subtotal:</th>');
-                                echo('<th>' . $grandTotal . '</th>');
-                            echo('</tr>');
-                            
                             ?>
                             </tbody>
                             

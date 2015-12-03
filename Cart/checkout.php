@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <?php
 session_start();
-
 $db_connection = mysqli_connect("localhost", "root", "", "devinvanwart");
 ?>
 <html>
@@ -65,9 +64,8 @@ $db_connection = mysqli_connect("localhost", "root", "", "devinvanwart");
                                 
                                 for($i = 0; $i < $_SESSION['num_products']; $i++)
                                 {
-                                    $itemTotal += $_SESSION['num_products'][$i]['qty'];
+                                    $itemTotal += $_SESSION['cart'][$i]['qty'];
                                 }
-                                
                                 if($itemTotal > 0){
                                     $checkoutSQL = "INSERT INTO orders(Email) VALUES ('" . $_SESSION['user'] . "')";
                                     mysqli_query($db_connection, $checkoutSQL);
@@ -85,7 +83,6 @@ $db_connection = mysqli_connect("localhost", "root", "", "devinvanwart");
                                     unset($_SESSION['num_items']);
                                     unset($_SESSION['num_products']);
                                     // destroy the session
-                                    session_destroy();
 
                                     echo '<h2>Checked out successfully.</h2>';
                                 }

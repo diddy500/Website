@@ -59,6 +59,13 @@ if(isset($_SESSION["cart"]))
                     </ul>
                 </li>
                 <li><a href="/ContactUs.php">Contact Us</a></li>
+                    <?php
+                    if(isset($_SESSION['user']))
+                    {
+                        if($_SESSION['user'] == "admin@yoursite.com")
+                            echo '<li><a href="/Admin/index.php">Admin</a></li>';
+                    }
+                    ?>
                 <li>
                     <form class="navbar-form" action="../search/index.php" method="get">
                         <div class="input-group">
